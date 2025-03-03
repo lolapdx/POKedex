@@ -58,6 +58,7 @@ export default{
     toggleDisplay(pok, component){
       this.componentDisplayed = component
       this.currentPokemon = pok
+      console.log(this.componentDisplayed)
     },
 
     nextPokemon(){
@@ -102,6 +103,7 @@ export default{
 
 <template>
 
+  <div class="menu">
   <menu_bar :componentDisplayed="componentDisplayed"
             :typeColors="typeColors"
             :filteredData="filteredData"
@@ -113,8 +115,9 @@ export default{
             @updateLevel="(level) => memoryLevel=level"
             @updateMemGen="(number) => memoryGeneration=number"
             />
+  </div>
 
-   
+  <div class="available-view" :style="{alignContent: componentDisplayed==='pokedex_cards' ? 'start' : 'center'}">
     <div v-if="componentDisplayed==='pokedex_cards'" class="pokedex">
       <p v-if="!pokemonData">Chargement...</p>
       <pokedex_cards v-else
@@ -123,66 +126,63 @@ export default{
     </div>
 
     
-    <div class="detailed-view" v-if="componentDisplayed==='pokemon_details'">
-    <pokemon_details :pokemon="currentPokemon"
+    <pokemon_details  v-if="componentDisplayed==='pokemon_details'"
+                     :pokemon="currentPokemon"
                      :filteredData="filteredData"
                      :typeColors="typeColors"
                      @next="nextPokemon()"
                      @prev="previousPokemon()"/>
-    </div>
 
-    <memory v-if="componentDisplayed==='memory'"
-            :pokemonData="pokemonData"
+
+    <div :class="(componentDisplayed==='memory') ? 'memory' : 'hidden'">
+    <memory v-if="pokemonData"
+            :pokemonData="pokemonData.slice(1)"
             :memoryGeneration="memoryGeneration"
             :level="memoryLevel"/>
+    </div>
 
+  </div>
 </template>
 
 
 <style>
 
-.detailed-view{
-  position:absolute;
-  height:90%;
-  width:75%;
-  align-content: center;
+.available-view{
+  flex:1;
+  height:100vh;
+  width:100%;
   justify-items: center;
-  left:25%;
-  margin-top: 2%;
+  margin-left: 30vw;
+  
+  @media screen and (max-width: 800px) {
+    margin-left: 0;    
+  }
 }
 
 .pokedex{
-  position:absolute;
-  left:25%;
-  margin: 2% 8%;
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  row-gap: 30px;
-  column-gap: 4%;
-}
-
-.star {
   position:relative;
-  visibility:hidden;
-  font-size:2.5rem;
-  cursor:pointer;
-  z-index:5;
-  left:-30%;
+  width:80%;
+  padding-top: 3%;
+  display: grid;
+  justify-content:center;
+  grid-template-columns: repeat(auto-fill, minmax(50px,175px)); /* Adjust the minmax value as needed */
+  gap: 20px; 
+
+  @media screen and (max-width: 800px) {
+    grid-template-columns: repeat(auto-fill, minmax(70px,95px));
+    width:90%;
+    padding-top: 10%;
+    gap: 10px; 
+
+  }
 }
 
-.star:before {
- content: "\2605";
- position: relative;
- visibility:visible;
- color: rgb(255, 208, 0);
- z-index:5;
+.hidden{
+  display:none;
+}
 
+.memory{
+  display:block;
 }
-.star:checked:before {
- content: "\2606";
- position: relative;
- visibility: visible;
- z-index:5;
- color:darkgrey;
-}
+
 </style>

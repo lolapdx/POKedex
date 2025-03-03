@@ -17,8 +17,6 @@ export default {
   <p v-if="!filteredData">Chargement...</p>
 
   <div class="card" v-else v-for="pokemon in filteredData" :key="pokemon.pokedex_id" @click="$emit('toggleDisplay',pokemon,'pokemon_details')">
-    <input :id="pokemon.pokedex_id" class="star" type="checkbox" title="favorite" checked> 
-    <br/>
     <img class="img1":src=pokemon.sprites.regular />
     <p> {{ pokemon.name.fr }} </p>
     <p> #  {{ pokemon.pokedex_id }} </p>
@@ -29,21 +27,29 @@ export default {
 
 <style>
 .card{
-  position: relative;
   align-items: center;
   text-align: center;
   border-radius: 5px;
-  padding-bottom:5%;
   box-shadow: 0px 0px 10px 2px rgba(0.2, 0.2, 0.2, 0.2);
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    height: 150px;
+  }
 }
 
 p{
-  padding: 5px;
+  padding: 4px;
   margin: 0px;
 }
 
 .img1{
-  width:70%;
+  width:80%;
+  height:auto;
 }
 
 </style>

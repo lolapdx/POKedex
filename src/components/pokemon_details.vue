@@ -33,23 +33,21 @@ export default {
 
   <div v-else class="container">
 
-  <div class="bloc">
-    <span :class="{arrowDisabled: prevDisabled}" @click="$emit('prev')" class="material-symbols-outlined left" > arrow_circle_right </span>
-  </div>
+    <button :class="{arrowDisabled: prevDisabled}" @click="$emit('prev')" class="navbutton">
+      <span class="material-icons-outlined left" > arrow_circle_right </span>
+    </button>
 
-  <div style="display:flex">
-      <input id="star" class="star" type="checkbox" title="favorite" checked> 
-
-      <div class="bloc-photo">
-        <img class="img2" v-bind:src=pokemon.sprites.regular />
-        <div class="bloc">
-          <p> <b>{{ pokemon.name.fr }}</b> </p>
-          <p> # {{ pokemon.pokedex_id }}</p>
-        </div>
-        <hr style="width:50%;"/>
-        <div class="type-list"> <div class="type" :style="{backgroundColor: getColor(pokemon.types[0].name)}">{{ pokemon.types[0].name }}</div> <div class="type" :style="{backgroundColor: getColor(pokemon.types[1].name)}" v-if="pokemon.types[1]"> {{ pokemon.types[1].name }}</div></div>
-        <!-- <p> Generation  {{ pokemon.generation }}</p> -->
-        <p class="category"> {{ pokemon.category }}</p>
+  <div class="bloc-photo">
+    <img class="img2" v-bind:src=pokemon.sprites.regular />
+    <div class="bloc">
+      <p> <b>{{ pokemon.name.fr }}</b> </p>
+      <p> # {{ pokemon.pokedex_id }}</p>
+    </div>
+    <hr style="width:50%;"/>
+    <div class="bloc">
+      <div class="type-list"> <div class="type" :style="{backgroundColor: getColor(pokemon.types[0].name)}">{{ pokemon.types[0].name }}</div> <div class="type" :style="{backgroundColor: getColor(pokemon.types[1].name)}" v-if="pokemon.types[1]"> {{ pokemon.types[1].name }}</div></div>
+      <!-- <p> Generation  {{ pokemon.generation }}</p> -->
+      <p class="category"> {{ pokemon.category }}</p>
     </div>
 </div>
 
@@ -72,9 +70,9 @@ export default {
   </div>
 </div>
 
-<div class="bloc">
-  <span :class="{arrowDisabled: nextDisabled}" @click="$emit('next')" class="material-symbols-outlined" > arrow_circle_right </span>
-</div>
+  <button :class="{arrowDisabled: nextDisabled}" @click="$emit('next')" class="navbutton">
+    <span class="material-icons-outlined" > arrow_circle_right </span>
+  </button>
 
 </div>
 
@@ -84,29 +82,32 @@ export default {
 <style>
 
 .img2{
-  height:50%;
-  width:auto;
-  max-width: 250px;
+  max-width:100%;
+  height:auto;
+  /* max-width: 250px; */
   aspect-ratio: 1/1;
 }
 
 .container{
   position:relative;
   height:60vh;
-  width:50vw;
+  width:60vw;
   display:flex;
   justify-content: space-around;
   align-items: center;
   gap:8%;
   border-radius: 5px;
   box-shadow: 0px 0px 5px 5px rgba(0.2, 0.2, 0.2, 0.2);
-  padding: 5%;
-  padding:5%;
+  padding: 2%;
 }
 
 p{
   padding-top: 0px;
   margin: 0px;
+}
+
+.bloc p {
+  display: inline-block; /* Change to inline-block */
 }
 
 .type-list{
@@ -124,7 +125,8 @@ p{
   color:rgb(174, 174, 174);
   font-weight: 600;
   letter-spacing: 1px;
-  margin-top:5%;
+  margin-top:10%;
+  text-align: center;
 }
 
 .title{
@@ -135,8 +137,7 @@ p{
 
 .bloc{
   height:100%;
-  width:fit-content;
-  height: fit-content;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -144,36 +145,42 @@ p{
 }
 
 .bloc-photo{
-  height:100%;
-  width:fit-content;
-  display: flex;
+  height:fit-content;
+  width:25%;
+  display:flex;
   flex-direction: column;
+  flex:1;
   gap:10px;
   align-items: center;
-  justify-content: center;
   font-family:sans-serif;
 }
 
 .bloc-stats{
   flex:1;
   height:100%;
-  width:fit-content;
+  width:30%;
   display: flex;
+  flex:1;
   flex-direction: column;
-  gap:30px;
+  gap:5%;
   align-items:start;
   justify-content: center;
   font-family:sans-serif;
 }
 
-.material-symbols-outlined{
+.navbutton{
+  background-color:white;
+  border:none;
+  width:12%;
+}
+.material-icons-outlined{
   color:rgb(159, 159, 159);
   cursor:pointer;
   font-size:3rem;
 }
 
-.material-symbols-outlined.left{
-  rotate:180deg;
+.material-icons-outlined.left{
+  transform : rotate(180deg);
 }
 
 .arrowDisabled{

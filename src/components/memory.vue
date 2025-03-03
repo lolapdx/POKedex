@@ -20,6 +20,7 @@ export default {
     pokemonData: Object,
     memoryGeneration: String,
     level: String,
+    isInitialized: Boolean,
   },
 
   methods: {
@@ -157,7 +158,7 @@ export default {
   },
 
   mounted() {
-    this.choosePokemon()
+    this.choosePokemon();
   },
 
   watch: {
@@ -195,7 +196,6 @@ export default {
 
 
 <template>
-  <div class="game-container">
 
     <div class="memory-grid">
       <div v-for="(element, index) in pokemonPairsList" :key="element.pokemon.pokedex_id + '-' + index"
@@ -207,12 +207,6 @@ export default {
           <img class="img1":src=element.pokemon.sprites.regular />
         </div>
       </div>
-    </div>
-
-      <div class="big-pop" v-if="gameEnd">
-        C'est gagné !
-        <button class="restart" @click="gameEnd=false, choosePokemon()"> Rejouer </button>
-      </div>
 
       <div class="small-pop" v-if="(displayMoyenInput)">
         <div> Trouvez le nom du pokémon :</div>
@@ -222,7 +216,7 @@ export default {
               placeholder="Entrez un nom"
               @keypress="(e) => {if (e.key === 'Enter'){ sendAnswer() }}"
               ref="MoyenInput">
-            </div>
+      </div>
 
       <div class="small-pop" v-if="(displayDifficileInput)">
         <div> Trouvez le numéro du pokémon :</div>
@@ -234,7 +228,17 @@ export default {
               ref="DifficileInput">
       </div>
 
-  </div>
+      <div class="big-pop" v-if="gameEnd">
+        C'est gagné !
+        <button class="restart" @click="gameEnd=false, choosePokemon()"> Rejouer </button>
+      </div>
+
+    </div>
+
+      
+
+      
+
 
 </template>
 
@@ -242,29 +246,24 @@ export default {
 <style>
 
 .memory-grid{
-  height:80vh;
-  width:80vh;
-  position:absolute;
-  margin: 0% 0% 0% 0%;
+  width:50vw;
   display: grid;
   grid-template:repeat(4,1fr)/repeat(4,1fr);
-  row-gap: 10px;
-  column-gap: 2%;
-}
+  row-gap: 1vw;
+  column-gap: 1vw;
 
-.game-container{
-  height:98%;
-  width:75%;
-  position:absolute;
-  display:flex;
-  left:25%;
-  justify-content:center;
-  align-items:center;
+  @media screen and (max-width: 800px) {
+    width:80vw;
+  }
 }
 
 .big-pop{
+  position:absolute;
+  top: 50%;
+  left: calc(30vw + 50%*0.7);
+  transform: translate(-50%, -50%);
   height:10%;
-  width:20%;
+  width:30vw;
   display:flex;
   flex-direction:column;
   text-align: center;
@@ -278,18 +277,36 @@ export default {
   border: 4px solid rgba(28, 77, 155, 0.889);
   background-color: rgb(100, 142, 240);
   z-index: 10;
+
+  @media screen and (max-width: 800px) {
+    width:50vw;
+    font-size: 0.8rem;
+    left: 50%;
+  }
 }
 
 .small-pop{
-  height:8%;
+  top: 50%;
+  left: calc(30vw + 50%*0.7);
+  transform: translate(-50%, -50%);
+  height:2%;
+  width:30vw;
+  position:absolute;
   display:flex;
   flex-direction: column;
-  justify-content:space-around;
-  padding: 1% 2% 1% 2%;
+  justify-content:center;
+  gap:5px;
+  padding: 3% 5% 3% 5%;
   border-radius: 5px;
   border: 2px solid rgb(169, 169, 169);
   background-color: rgb(226, 226, 226);
   z-index: 10;
+
+  @media screen and (max-width: 800px) {
+    width:50vw;
+    font-size: 0.8rem;
+    left: 50%;
+  }	
 }
 
 .tile{
@@ -339,11 +356,18 @@ export default {
 }
 
 .validation-input{
-  width:17vw;
-  height:1.3rem;
+  width:98%;
+  height:20px;;
+  font-size: 1rem;
   border-radius: 5px;
   border-width: 1px;
   padding-left: 2%;
+
+  @media screen and (max-width: 800px) {
+    font-size: 0.8rem;
+    height:15px;;
+
+  }
 }
 
 </style>

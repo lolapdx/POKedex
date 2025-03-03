@@ -12,10 +12,13 @@ body {
     'Droid Sans',
     'Helvetica Neue',
     sans-serif;
+  margin: 0;
 }
 
 #app {
   font-weight: normal;
+  display:flex;
+  flex: 1 1 0;
 }
 
 

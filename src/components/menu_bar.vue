@@ -9,6 +9,7 @@ data(){
         generation:'',
         memoryGeneration:'',
         selectedLevel:'Facile',
+        is_extended: window.innerWidth > 800,
     }
 },
 
@@ -42,6 +43,17 @@ data(){
       this.selectedLevel=level
     },
 
+    toggleMenu(){
+        if (window.innerWidth < 800) {this.is_extended=!this.is_extended}
+    },
+
+    handleClickOutside(event) {
+      const menu = this.$refs.menu
+      if (window.innerWidth <800 && menu && !menu.contains(event.target)) {
+        this.is_extended = false
+      }
+    },
+
   },
 
   computed: {
@@ -50,29 +62,38 @@ data(){
     },
   },
 
+  mounted() {
+    document.addEventListener('click', this.handleClickOutside)
+  },
+  beforeDestroy() {
+    document.removeEventListener('click', this.handleClickOutside)
+  },
+
+
 }
 </script>
 
 <template>
 
-<div class="menu">
+<div ref="menu" class="menu" :class="{ extended: is_extended }">
+    <div class="arrowbuttonWrap">
+        <button class="arrowbutton">
+            <span class="material-symbols-outlined" @click="toggleMenu"> keyboard_double_arrow_right </span>
+        </button>
+    </div>
 
+    <div v-if="is_extended">  
     <div class="logo">
         <img src="../assets/ronflex.png" alt="logo" class="img-logo">
         <p class="title-logo">My POKédex</p>
     </div>
 
-    <div class="bar-item" :class="{ activeBar: componentDisplayed==='pokedex_cards'}" @click="$emit('toggleDisplay','','pokedex_cards')">
+    <div class="bar-item" :class="{ activeBar: componentDisplayed==='pokedex_cards'}" @click="toggleMenu(), $emit('toggleDisplay','','pokedex_cards')">
         Accueil - pokédex
     </div>
 
-    <div class="bar-item" :class="{ activeBar: componentDisplayed==='memory'}" @click="$emit('toggleDisplay','','memory')">
+    <div class="bar-item" :class="{ activeBar: componentDisplayed==='memory'}" @click="toggleMenu(), $emit('toggleDisplay','','memory')">
         Mémory
-    </div>
-
-    <div class="bar-item">
-        <i class="fa-regular fa-star"></i>
-        <p> Favoris </p>
     </div>
 
     <div v-if="componentDisplayed=='pokedex_cards'" class="filter-list">
@@ -141,40 +162,41 @@ data(){
 
         <div class="title-section">Paramètres Mémory</div>
 
-        <div class="filter-layout">
-            <div class="title-choice">Choisir un niveau de difficulté :</div>
-            <div class="filter-item">
-                <button class="level-button" 
-                        :class="{ selected: selectedLevel === 'Facile' }"
-                        @click="updateLevel('Facile'), $emit('updateLevel', selectedLevel)">
-                    Facile 
-                </button>
-                <button class="level-button" 
-                        :class="{ selected: selectedLevel === 'Moyen' }"
-                        @click="updateLevel('Moyen'), $emit('updateLevel', selectedLevel)">
-                    Moyen 
-                </button>
-                <button class="level-button" 
-                        :class="{ selected: selectedLevel === 'Difficile' }"
-                        @click="updateLevel('Difficile'), $emit('updateLevel', selectedLevel)">
-                    Difficile 
-                </button>
+            <div class="filter-layout">
+                <div class="title-choice">Choisir un niveau de difficulté :</div>
+                <div class="filter-item">
+                    <button class="level-button" 
+                            :class="{ selected: selectedLevel === 'Facile' }"
+                            @click="updateLevel('Facile'), $emit('updateLevel', selectedLevel)">
+                        Facile 
+                    </button>
+                    <button class="level-button" 
+                            :class="{ selected: selectedLevel === 'Moyen' }"
+                            @click="updateLevel('Moyen'), $emit('updateLevel', selectedLevel)">
+                        Moyen 
+                    </button>
+                    <button class="level-button" 
+                            :class="{ selected: selectedLevel === 'Difficile' }"
+                            @click="updateLevel('Difficile'), $emit('updateLevel', selectedLevel)">
+                        Difficile 
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <div class="filter-layout">
-            <div class="title-choice">Choisir une génération :</div>
-            <div class="filter-item">
-                <select class="select-type" id="gen2" v-model="memoryGeneration" @change="$emit('updateMemGen', memoryGeneration)">
-                    <option disabled value=""> Toutes </option>
-                    <option v-for="number in [1,2,3,4,5,6,7,8,9]">
-                        {{ number }}
-                    </option>
-                </select>
-                <i v-if="(memoryGeneration)"
-                    class="fa-solid fa-square-xmark"
-                    style="color: #858585; cursor:pointer;"
-                    @click="resetMemGen(); $emit('updateMemGen', generation)"></i>
+            <div class="filter-layout">
+                <div class="title-choice">Choisir une génération :</div>
+                <div class="filter-item">
+                    <select class="select-type" id="gen2" v-model="memoryGeneration" @change="$emit('updateMemGen', memoryGeneration)">
+                        <option disabled value=""> Toutes </option>
+                        <option v-for="number in [1,2,3,4,5,6,7,8,9]">
+                            {{ number }}
+                        </option>
+                    </select>
+                    <i v-if="(memoryGeneration)"
+                        class="fa-solid fa-square-xmark"
+                        style="color: #858585; cursor:pointer;"
+                        @click="resetMemGen(); $emit('updateMemGen', generation)"></i>
+                </div>
             </div>
         </div>
     </div>
@@ -187,32 +209,80 @@ data(){
 
 .menu{
     position:fixed;
-    top:0px;
-    left:0px;
-    width:25vw;
-    height:100%;
+    width:0vw;
+    height:100vh;
     background-color: rgb(236, 236, 236);
-    border-right: 1px solid rgb(179, 179, 179);
     display:flex;
     flex-direction: column;
-    z-index: 10;
+    z-index: 50;
+    transition:0.2s ease-out;
+
+    .arrowbuttonWrap{
+        position:absolute;
+        top:10%;
+        left:0%;
+        display:flex;
+        justify-content: start;
+        transition: 0.2s ease-out;
+        z-index: 100;
+        pointer-events: none;
+        visibility:hidden;
+
+        @media screen and (max-width: 800px){
+          visibility:visible;
+          pointer-events: all;
+        }
+    }
+
+    .material-symbols-outlined{
+        color:rgb(70, 70, 70);
+        cursor:pointer;
+        font-size:2rem;
+        }
+
+    .arrowbutton{
+        border: 1px solid rgb(179, 179, 179);
+        border-left:none;
+        transition: 0.2s ease-out;
+        border-radius: 0px 10px 10px 0px;
+        display:flex;
+        justify-content: center;
+    }
+}
+
+.menu.extended{
+    width:30vw;
+    border-right: 1px solid rgb(179, 179, 179);
+    z-index: 50;
+
+    @media screen and (max-width: 800px){
+      width:80%;
+    }
+
+    .arrowbuttonWrap{
+        top:4%;
+        right:0%;
+        transform: rotate(180deg);
+        justify-content: flex-start;
+        z-index: 100;
+    }
 }
 
 .logo{
     display:flex;
     justify-content: center;
     align-items: center;
-    padding:10% 0% 10% 0%;
+    padding:5vh 0 5vh 0;
     border-bottom: 1px solid rgb(179, 179, 179);
 }
 
 .img-logo{
-    width:15%;
+    width:5vw;
     height:auto;
 }
 
 .title-logo{
-    font-size: 2rem;
+    font-size: max(2vw,1rem);
     font-weight: bold;
 }
 
@@ -302,10 +372,13 @@ data(){
 
 .level-button{
     height:2rem;
-    width:45%;
+    width:30%;
     border-radius: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
     border-color: rgb(184, 184, 184);
     cursor:pointer;
+    font-size: 0.7rem;
 }
 
 .level-button:hover, .level-button.selected{
@@ -315,45 +388,5 @@ data(){
     font-weight: 600;
 }
 
-/* 
-.moyen{
-    height:2rem;
-    width:45%;
-    border-radius: 5px;
-    border-color: rgb(184, 184, 184);
-    cursor:pointer;
-}
-
-.moyen:hover{
-    background-color: rgb(237, 254, 152);
-    border-color: rgb(150, 161, 96);
-    font-weight: 600;
-}
-
-.moyen:active, moyen.pushed{
-    background-color: rgb(244, 255, 189);
-    border-color: rgb(197, 211, 127);
-    font-weight: 600;
-}
-
-.difficile{
-    height:2rem;
-    width:45%;
-    border-radius: 5px;
-    border-color: rgb(184, 184, 184);
-    cursor:pointer;
-}
-
-.difficile:hover{
-    background-color: rgb(254, 177, 141);
-    border-color: rgb(172, 118, 92);
-    font-weight: 600;
-}
-
-.difficile:active, difficile.pushed{
-    background-color: rgb(255, 196, 169);
-    border-color: rgb(213, 145, 113);
-    font-weight: 600;
-} */
 
 </style>
