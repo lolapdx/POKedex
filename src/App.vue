@@ -166,15 +166,14 @@ export default{
   padding-top: 3%;
   display: grid;
   justify-content:center;
-  grid-template-columns: repeat(auto-fill, minmax(50px,175px)); /* Adjust the minmax value as needed */
+  grid-template-columns: repeat(auto-fill, minmax(50px, 160px));
   gap: 20px; 
 
   @media screen and (max-width: 800px) {
-    grid-template-columns: repeat(auto-fill, minmax(70px,95px));
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     width:90%;
     padding-top: 10%;
-    gap: 10px; 
-
+    gap: 13px; 
   }
 }
 

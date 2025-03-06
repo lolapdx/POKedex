@@ -205,6 +205,7 @@ export default {
   padding: 7px 14px 7px 14px;
   border-radius: 15px;
   text-align: center;
+
   @media screen and (max-width: 800px){
       width:50%;
     }
@@ -237,7 +238,12 @@ export default {
   display:flex;
   flex-direction: column;
   gap:2vh;
+
+  @media screen and (max-width: 800px){
+      gap:0.5vh;
+    }
 }
+
 p{
   padding-top: 0px;
   margin: 0px;
