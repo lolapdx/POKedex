@@ -88,11 +88,11 @@ data(){
         <p class="title-logo">My POKédex</p>
     </div>
 
-    <div class="bar-item" :class="{ activeBar: componentDisplayed==='pokedex_cards'}" @click="toggleMenu(), $emit('toggleDisplay','','pokedex_cards')">
+    <div class="bar-item" :class="{ activeBar: componentDisplayed==='pokedex_cards'}" @click="$emit('toggleDisplay','','pokedex_cards')">
         Accueil - pokédex
     </div>
 
-    <div class="bar-item" :class="{ activeBar: componentDisplayed==='memory'}" @click="toggleMenu(), $emit('toggleDisplay','','memory')">
+    <div class="bar-item" :class="{ activeBar: componentDisplayed==='memory'}" @click="$emit('toggleDisplay','','memory')">
         Mémory
     </div>
 
@@ -210,7 +210,7 @@ data(){
 .menu{
     position:fixed;
     width:0vw;
-    height:100vh;
+    height:100%;
     background-color: rgb(236, 236, 236);
     display:flex;
     flex-direction: column;
@@ -288,7 +288,7 @@ data(){
 
 .bar-item{
     width:80%;
-    padding: 5% 10% 5% 10%;
+    padding: 3vh 10% 3vh 10%;
     display:flex;
     align-items: center;
     justify-content: baseline;
@@ -311,14 +311,12 @@ data(){
     display:flex;
     flex-direction: column;
     gap:2vh;
-    /* haut droite bas gauche */
-    padding-top: 5% 
 }
 
 .filter-item{
     width:80%;
     /* haut droite bas gauche */
-    padding: 2% 0% 2% 10%;
+    padding: 1vh 0% 1vh 10%;
     display:flex;
     align-items: center;
     justify-content: flex-start;
@@ -339,7 +337,7 @@ data(){
 
 .title-section{
     /* haut droite bas gauche */
-    padding: 5% 0% 3% 10%;
+    padding: 3vh 0% 0% 10%;
     font-weight:1000;
     letter-spacing: 0.5px;
     color: rgb(160, 160, 160);

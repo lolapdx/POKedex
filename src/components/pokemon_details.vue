@@ -17,6 +17,10 @@ export default {
   },
 
   computed: {
+    vertical(){
+      return (window.innerWidth < 800)
+    },
+
     prevDisabled() {
       return (this.pokemon===this.filteredData[0] || !this.filteredData.includes(this.pokemon))
     },
@@ -37,38 +41,65 @@ export default {
       <span class="material-icons-outlined left" > arrow_circle_right </span>
     </button>
 
-  <div class="bloc-photo">
-    <img class="img2" v-bind:src=pokemon.sprites.regular />
-    <div class="bloc">
-      <p> <b>{{ pokemon.name.fr }}</b> </p>
-      <p> # {{ pokemon.pokedex_id }}</p>
-    </div>
-    <hr style="width:50%;"/>
-    <div class="bloc">
-      <div class="type-list"> <div class="type" :style="{backgroundColor: getColor(pokemon.types[0].name)}">{{ pokemon.types[0].name }}</div> <div class="type" :style="{backgroundColor: getColor(pokemon.types[1].name)}" v-if="pokemon.types[1]"> {{ pokemon.types[1].name }}</div></div>
-      <!-- <p> Generation  {{ pokemon.generation }}</p> -->
-      <p class="category"> {{ pokemon.category }}</p>
-    </div>
-</div>
+    <div class="inside-content">
 
-<div class="bloc-stats">
-  <div>
-    <p> <b>Taille :</b>{{ pokemon.height}}</p>
-    <p> <b>Poids :</b> {{ pokemon.weight}}</p>
-  </div>
-  <div>
-    <p class="title">Statistiques de base</p>
-    <hr style="width:120%;">
-  </div>
-  <div>
-    <p> <b>HP :</b> {{ pokemon.stats.hp}}</p>
-    <p> <b>Attaque :</b> {{ pokemon.stats.atk}}</p>
-    <p> <b>Défense :</b> {{ pokemon.stats.def}}</p>
-    <p> <b>Attaque spéciale :</b> {{ pokemon.stats.spe_atk}}</p>
-    <p> <b>Défense spéciale :</b> {{ pokemon.stats.spe_def}}</p>
-    <p> <b>Vitesse :</b> {{ pokemon.stats.vit}}</p>
-  </div>
-</div>
+      <div class="bloc-general">
+
+        <img class="img2" v-bind:src=pokemon.sprites.regular />
+
+        <div class="bloc">
+          <p> <b>{{ pokemon.name.fr }}</b> </p>
+          <p> # {{ pokemon.pokedex_id }}</p>
+        </div>
+
+        <hr style="width:50%;" v-if="!vertical"/>
+
+        <div class="bloc">
+          <div class="type-list" v-if="!vertical">
+            <div class="type" :style="{backgroundColor: getColor(pokemon.types[0].name)}">{{ pokemon.types[0].name }}</div>
+            <div class="type" :style="{backgroundColor: getColor(pokemon.types[1].name)}" v-if="pokemon.types[1]"> {{ pokemon.types[1].name }}</div>
+          </div>
+
+          <p class="category"> {{ pokemon.category }}</p>
+        </div>
+      </div>
+
+      <div class="type-list" v-if="vertical">
+              <div class="type" :style="{backgroundColor: getColor(pokemon.types[0].name)}">{{ pokemon.types[0].name }}</div>
+              <div class="type" :style="{backgroundColor: getColor(pokemon.types[1].name)}" v-if="pokemon.types[1]"> {{ pokemon.types[1].name }}</div>
+        </div>
+
+      <div class="bloc-stats">
+        <div v-if="!vertical">
+          <p> <b>Taille :</b>{{ pokemon.height}}</p>
+          <p> <b>Poids :</b> {{ pokemon.weight}}</p>
+        </div>
+
+        <div class="stats">
+
+          <div class="title">
+            <div>Statistiques de base</div>
+            <hr style="width:100%;">
+          </div>
+
+          <div>
+            <p> <b>HP :</b> {{ pokemon.stats.hp}}</p>
+            <p> <b>Attaque :</b> {{ pokemon.stats.atk}}</p>
+            <p> <b>Défense :</b> {{ pokemon.stats.def}}</p>
+            <p> <b>Attaque spéciale :</b> {{ pokemon.stats.spe_atk}}</p>
+            <p> <b>Défense spéciale :</b> {{ pokemon.stats.spe_def}}</p>
+            <p> <b>Vitesse :</b> {{ pokemon.stats.vit}}</p>
+            <br>
+
+            <div class="physical" v-if="vertical">
+              <p> <b>Taille :</b>{{ pokemon.height}}</p>
+              <p> <b>Poids :</b> {{ pokemon.weight}}</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
 
   <button :class="{arrowDisabled: nextDisabled}" @click="$emit('next')" class="navbutton">
     <span class="material-icons-outlined" > arrow_circle_right </span>
@@ -84,30 +115,84 @@ export default {
 .img2{
   max-width:100%;
   height:auto;
-  /* max-width: 250px; */
   aspect-ratio: 1/1;
+
+  @media screen and (max-width: 800px){
+      max-width:20vh;
+      min-width: 130px;;
+    }
 }
 
 .container{
   position:relative;
   height:60vh;
+  min-height: 450px;
   width:60vw;
   display:flex;
   justify-content: space-around;
   align-items: center;
-  gap:8%;
+  gap:5%;
   border-radius: 5px;
   box-shadow: 0px 0px 5px 5px rgba(0.2, 0.2, 0.2, 0.2);
   padding: 2%;
+  margin:6%;
+
+  @media screen and (max-width: 800px){
+      gap:4%;
+      height:85%;
+      min-height: 600px;
+      width:80vw;
+    }
 }
 
-p{
-  padding-top: 0px;
-  margin: 0px;
+.inside-content{
+  display:flex;
+  align-items: space-around;
+  justify-content: center;
+  flex:1;
+  gap:10%;
+
+
+  @media screen and (max-width: 800px){
+      flex-direction: column;
+      gap:3vh;
+      width:60%;
+    }
 }
 
-.bloc p {
-  display: inline-block; /* Change to inline-block */
+.bloc-general{
+  flex:1;
+  display:flex;
+  flex-direction: column;
+  gap:1vh;
+  align-items: center;
+  justify-content: center;
+  font-family:sans-serif;
+}
+
+.bloc-stats{
+  flex:1;
+  width:30%;
+  display: flex;
+  flex-direction: column;
+  gap:10%;
+  align-items:start;
+  justify-content: center;
+  font-family:sans-serif;
+
+  @media screen and (max-width: 800px){
+      width:100%;
+      gap:5vh;
+    }
+}
+
+.bloc{
+  height:fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .type-list{
@@ -119,53 +204,51 @@ p{
 .type{
   padding: 7px 14px 7px 14px;
   border-radius: 15px;
+  text-align: center;
+  @media screen and (max-width: 800px){
+      width:50%;
+    }
 }
 
 .category{
   color:rgb(174, 174, 174);
   font-weight: 600;
   letter-spacing: 1px;
-  margin-top:10%;
+  margin-top:4%;
   text-align: center;
+
+  @media screen and (max-width: 800px){
+      margin-top:0;
+    }
 }
 
 .title{
   color:rgb(174, 174, 174);
   font-weight: 600;
   font-size:1.2rem;
+
+  @media screen and (max-width: 800px){
+      font-size:1.1rem;
+      width:100%;
+    }
 }
 
-.bloc{
-  height:100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.bloc-photo{
-  height:fit-content;
-  width:25%;
+.stats{
   display:flex;
   flex-direction: column;
-  flex:1;
-  gap:10px;
-  align-items: center;
-  font-family:sans-serif;
+  gap:2vh;
+}
+p{
+  padding-top: 0px;
+  margin: 0px;
+
+  @media screen and (max-width: 800px){
+      font-size:0.9rem;
+    }
 }
 
-.bloc-stats{
-  flex:1;
-  height:100%;
-  width:30%;
-  display: flex;
-  flex:1;
-  flex-direction: column;
-  gap:5%;
-  align-items:start;
-  justify-content: center;
-  font-family:sans-serif;
+.bloc p {
+  display: inline-block;
 }
 
 .navbutton{
@@ -177,6 +260,10 @@ p{
   color:rgb(159, 159, 159);
   cursor:pointer;
   font-size:3rem;
+  
+  @media screen and (max-width: 800px){
+      font-size:1.5rem;
+  }
 }
 
 .material-icons-outlined.left{

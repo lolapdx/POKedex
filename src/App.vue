@@ -148,8 +148,9 @@ export default{
 <style>
 
 .available-view{
+  position:relative;
   flex:1;
-  height:100vh;
+  height:100%;
   width:100%;
   justify-items: center;
   margin-left: 30vw;

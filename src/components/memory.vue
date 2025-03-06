@@ -235,11 +235,6 @@ export default {
 
     </div>
 
-      
-
-      
-
-
 </template>
 
 
@@ -260,10 +255,11 @@ export default {
 .big-pop{
   position:absolute;
   top: 50%;
-  left: calc(30vw + 50%*0.7);
+  left: 50%;
   transform: translate(-50%, -50%);
-  height:10%;
+  height:fit-content;
   width:30vw;
+  padding: 1% 0% 1% 0%;
   display:flex;
   flex-direction:column;
   text-align: center;
@@ -281,32 +277,31 @@ export default {
   @media screen and (max-width: 800px) {
     width:50vw;
     font-size: 0.8rem;
-    left: 50%;
   }
 }
 
 .small-pop{
   top: 50%;
-  left: calc(30vw + 50%*0.7);
+  left: 50%;
   transform: translate(-50%, -50%);
-  height:2%;
+  height:fit-content;
   width:30vw;
   position:absolute;
   display:flex;
   flex-direction: column;
   justify-content:center;
   gap:5px;
-  padding: 3% 5% 3% 5%;
+  padding: 1% 3% 2% 3%;
   border-radius: 5px;
   border: 2px solid rgb(169, 169, 169);
   background-color: rgb(226, 226, 226);
   z-index: 10;
 
   @media screen and (max-width: 800px) {
-    width:50vw;
+    width:60vw;
     font-size: 0.8rem;
-    left: 50%;
-  }	
+    height:fit-content;
+    }	
 }
 
 .tile{
@@ -357,7 +352,7 @@ export default {
 
 .validation-input{
   width:98%;
-  height:20px;;
+  height:auto;
   font-size: 1rem;
   border-radius: 5px;
   border-width: 1px;
@@ -365,8 +360,6 @@ export default {
 
   @media screen and (max-width: 800px) {
     font-size: 0.8rem;
-    height:15px;;
-
   }
 }
 
