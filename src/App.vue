@@ -1,12 +1,12 @@
 <script>
-import pokemon_details from './components/pokemon_details.vue'
+import pokemon_card from './components/pokemon_card.vue'
 import pokedex_cards from './components/pokedex_cards.vue'
 import menu_bar from './components/menu_bar.vue'
 import memory from './components/memory.vue'
 
 export default{
   components: {
-    pokemon_details,
+    pokemon_card,
     pokedex_cards,
     menu_bar,
     memory,
@@ -126,10 +126,11 @@ export default{
     </div>
 
     
-    <pokemon_details  v-if="componentDisplayed==='pokemon_details'"
+    <pokemon_card  v-if="componentDisplayed==='pokemon_details'"
                      :pokemon="currentPokemon"
                      :filteredData="filteredData"
                      :typeColors="typeColors"
+                     :mode="'details'"
                      @next="nextPokemon()"
                      @prev="previousPokemon()"/>
 
