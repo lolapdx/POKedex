@@ -92,12 +92,16 @@ data(){
         Accueil - pokédex
     </div>
 
+    <div class="bar-item" :class="{ activeBar: componentDisplayed==='learn'}" @click="$emit('toggleDisplay', filteredData && filteredData.length ? filteredData[0] : '', 'learn')">
+        Mode apprentissage
+    </div>
+
     <div class="bar-item" :class="{ activeBar: componentDisplayed==='memory'}" @click="$emit('toggleDisplay','','memory')">
         Mémory
     </div>
 
-    <div v-if="componentDisplayed=='pokedex_cards'" class="filter-list">
-        <div class="title-section">Filtrer le pokédex :</div>
+    <div v-if="componentDisplayed!=='memory'" class="filter-list">
+        <div class="title-section">Filtrer la sélection :</div>
         <div class="filter-layout">
             <div class="filter-item">
                 <input id="research"

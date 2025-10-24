@@ -134,6 +134,14 @@ export default{
                      @next="nextPokemon()"
                      @prev="previousPokemon()"/>
 
+    <pokemon_card  v-if="componentDisplayed==='learn'"
+                     :pokemon="currentPokemon"
+                     :filteredData="filteredData"
+                     :typeColors="typeColors"
+                     :mode="'learn'"
+                     @next="nextPokemon()"
+                     @prev="previousPokemon()"/>
+
 
     <div :class="(componentDisplayed==='memory') ? 'memory' : 'hidden'">
     <memory v-if="pokemonData"
