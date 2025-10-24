@@ -16,6 +16,12 @@ components: {
     mode:String,
   },
 
+  data(){
+    return {
+      learningStep:1,
+    }
+  },
+
   emits: ['next', 'prev'],
 
   methods:{
@@ -46,7 +52,7 @@ components: {
 
   <div v-else class="container">
 
-    <button :class="{arrowDisabled: prevDisabled}" @click="$emit('prev')" class="navbutton">
+    <button :class="{arrowDisabled: prevDisabled}" @click="$emit('prev'), learningStep=1" class="navbutton">
       <span class="material-icons-outlined left" > arrow_circle_right </span>
     </button>
 
@@ -62,11 +68,13 @@ components: {
                         :pokemon="pokemon"
                         :typeColors="typeColors"
                         :filteredData="filteredData"
+                        :step="learningStep"
+                        @nextStep="learningStep = (learningStep % 3) + 1"
                         />
                         
     </div>
 
-  <button :class="{arrowDisabled: nextDisabled}" @click="$emit('next')" class="navbutton">
+  <button :class="{arrowDisabled: nextDisabled}" @click="$emit('next'), learningStep=1" class="navbutton">
     <span class="material-icons-outlined" > arrow_circle_right </span>
   </button>
 
