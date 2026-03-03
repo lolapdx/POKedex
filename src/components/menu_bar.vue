@@ -88,23 +88,27 @@ data(){
             <p class="title-logo">My POKédex</p>
         </div>
 
-        <div class="bar-item" :class="{ activeBar: componentDisplayed==='pokedex_cards'}" @click="$emit('toggleDisplay','','pokedex_cards')">
-            Accueil - pokédex
-        </div>
+    <div class="bar-item" :class="{ activeBar: componentDisplayed==='pokedex_cards'}" @click="$emit('toggleDisplay','','pokedex_cards')">
+        Accueil - pokédex
+    </div>
+
+    <div class="bar-item" :class="{ activeBar: componentDisplayed==='learn'}" @click="$emit('toggleDisplay', filteredData && filteredData.length ? filteredData[0] : '', 'learn')">
+        Mode apprentissage
+    </div>
 
         <div class="bar-item" :class="{ activeBar: componentDisplayed==='memory'}" @click="$emit('toggleDisplay','','memory')">
             Mémory
         </div>
 
-        <div v-if="componentDisplayed=='pokedex_cards'" class="filter-list">
-            <div class="title-section">Filtrer le pokédex :</div>
-            <div class="filter-layout">
-                <div class="filter-item">
-                    <input id="research"
-                            class="research"
-                            v-model="searchQuery"
-                            placeholder="Rechercher nom ou ID"
-                            @input="$emit('updateKey', searchQuery)">
+    <div v-if="componentDisplayed!=='memory'" class="filter-list">
+        <div class="title-section">Filtrer la sélection :</div>
+        <div class="filter-layout">
+            <div class="filter-item">
+                <input id="research"
+                        class="research"
+                        v-model="searchQuery"
+                        placeholder="Rechercher nom ou ID"
+                        @input="$emit('updateKey', searchQuery)">
 
                     <i v-if="searchQuery" class="fa-solid fa-square-xmark"  style="color: #858585; cursor:pointer;" @click="resetSearch(); $emit('updateKey', searchQuery)"></i>
                 </div>
