@@ -49,10 +49,8 @@ export default{
   methods: {
     async fetchData() {
       this.pokemonData = null
-      const res = await fetch(
-        `https://tyradex.vercel.app/api/v1/pokemon`
-      )
-      this.pokemonData = await res.json()
+      const data = await import('./data/pokemon.json')
+      this.pokemonData = data.default
     },
 
     toggleDisplay(pok, component){
@@ -144,7 +142,6 @@ export default{
   </div>
 </template>
 
-
 <style>
 
 .available-view{
@@ -186,3 +183,5 @@ export default{
 }
 
 </style>
+
+

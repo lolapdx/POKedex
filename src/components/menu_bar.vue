@@ -83,84 +83,84 @@ data(){
     </div>
 
     <div v-if="is_extended">  
-    <div class="logo">
-        <img src="../assets/ronflex.png" alt="logo" class="img-logo">
-        <p class="title-logo">My POKédex</p>
-    </div>
-
-    <div class="bar-item" :class="{ activeBar: componentDisplayed==='pokedex_cards'}" @click="$emit('toggleDisplay','','pokedex_cards')">
-        Accueil - pokédex
-    </div>
-
-    <div class="bar-item" :class="{ activeBar: componentDisplayed==='memory'}" @click="$emit('toggleDisplay','','memory')">
-        Mémory
-    </div>
-
-    <div v-if="componentDisplayed=='pokedex_cards'" class="filter-list">
-        <div class="title-section">Filtrer le pokédex :</div>
-        <div class="filter-layout">
-            <div class="filter-item">
-                <input id="research"
-                        class="research"
-                        v-model="searchQuery"
-                        placeholder="Rechercher nom ou ID"
-                        @input="$emit('updateKey', searchQuery)">
-
-                <i v-if="searchQuery" class="fa-solid fa-square-xmark"  style="color: #858585; cursor:pointer;" @click="resetSearch(); $emit('updateKey', searchQuery)"></i>
-            </div>
+        <div class="logo">
+            <img src="../assets/ronflex.png" alt="logo" class="img-logo">
+            <p class="title-logo">My POKédex</p>
         </div>
 
-        <div class="filter-layout">
-            <div class="title-choice">Choisir un ou deux types :</div>
-
-            <div class="filter-item">
-                <select class="select-type" id="type1" v-model="type1Query" @change="$emit('updateType1', type1Query)">
-                    <option disabled value="">Choisir un type</option>
-                    <option v-for="option in Object.keys(typeColors)">
-                        {{ option }}
-                    </option>
-                </select>
-
-                <select class="select-type" id="type2" v-model="type2Query" @change="$emit('updateType2', type2Query)">
-                    <option disabled value="">Choisir un type</option>
-                    <option v-for="option in Object.keys(typeColors)">
-                        {{ option }}
-                    </option>
-                </select>
-
-                <i v-if="(type1Query || type2Query)"
-                    class="fa-solid fa-square-xmark"
-                    style="color: #858585; cursor:pointer;"
-                    @click="resetTypes(); $emit('updateType1', type1Query); $emit('updateType2', type2Query) "></i>
-            </div>
+        <div class="bar-item" :class="{ activeBar: componentDisplayed==='pokedex_cards'}" @click="$emit('toggleDisplay','','pokedex_cards')">
+            Accueil - pokédex
         </div>
 
-        <div class="filter-layout">
-            <div class="title-choice">Choisir une génération :</div>
-
-            <div class="filter-item">
-                <select class="select-type" id="gen" v-model="generation" @change="$emit('updateGen', generation)">
-                    <option disabled value=""> Toutes </option>
-                    <option v-for="number in [1,2,3,4,5,6,7,8,9]">
-                        {{ number }}
-                    </option>
-                </select>
-
-                <i v-if="(generation)"
-                    class="fa-solid fa-square-xmark"
-                    style="color: #858585; cursor:pointer;"
-                    @click="resetGen(); $emit('updateGen', generation)"></i>
-            </div>
+        <div class="bar-item" :class="{ activeBar: componentDisplayed==='memory'}" @click="$emit('toggleDisplay','','memory')">
+            Mémory
         </div>
 
-        <p class="results"> Résultats affichés :  {{ numberResults }}</p>
+        <div v-if="componentDisplayed=='pokedex_cards'" class="filter-list">
+            <div class="title-section">Filtrer le pokédex :</div>
+            <div class="filter-layout">
+                <div class="filter-item">
+                    <input id="research"
+                            class="research"
+                            v-model="searchQuery"
+                            placeholder="Rechercher nom ou ID"
+                            @input="$emit('updateKey', searchQuery)">
 
-    </div>
+                    <i v-if="searchQuery" class="fa-solid fa-square-xmark"  style="color: #858585; cursor:pointer;" @click="resetSearch(); $emit('updateKey', searchQuery)"></i>
+                </div>
+            </div>
+
+            <div class="filter-layout">
+                <div class="title-choice">Choisir un ou deux types :</div>
+
+                <div class="filter-item">
+                    <select class="select-type" id="type1" v-model="type1Query" @change="$emit('updateType1', type1Query)">
+                        <option disabled value="">Choisir un type</option>
+                        <option v-for="option in Object.keys(typeColors)">
+                            {{ option }}
+                        </option>
+                    </select>
+
+                    <select class="select-type" id="type2" v-model="type2Query" @change="$emit('updateType2', type2Query)">
+                        <option disabled value="">Choisir un type</option>
+                        <option v-for="option in Object.keys(typeColors)">
+                            {{ option }}
+                        </option>
+                    </select>
+
+                    <i v-if="(type1Query || type2Query)"
+                        class="fa-solid fa-square-xmark"
+                        style="color: #858585; cursor:pointer;"
+                        @click="resetTypes(); $emit('updateType1', type1Query); $emit('updateType2', type2Query) "></i>
+                </div>
+            </div>
+
+            <div class="filter-layout">
+                <div class="title-choice">Choisir une génération :</div>
+
+                <div class="filter-item">
+                    <select class="select-type" id="gen" v-model="generation" @change="$emit('updateGen', generation)">
+                        <option disabled value=""> Toutes </option>
+                        <option v-for="number in [1,2,3,4,5,6,7,8,9]">
+                            {{ number }}
+                        </option>
+                    </select>
+
+                    <i v-if="(generation)"
+                        class="fa-solid fa-square-xmark"
+                        style="color: #858585; cursor:pointer;"
+                        @click="resetGen(); $emit('updateGen', generation)"></i>
+                </div>
+            </div>
+
+            <p class="results"> Résultats affichés :  {{ numberResults }}</p>
+
+        </div>
 
 
-    <div v-if="componentDisplayed=='memory'" class="filter-list">
+        <div v-if="componentDisplayed=='memory'" class="filter-list">
 
-        <div class="title-section">Paramètres Mémory</div>
+            <div class="title-section">Paramètres Mémory</div>
 
             <div class="filter-layout">
                 <div class="title-choice">Choisir un niveau de difficulté :</div>
@@ -199,11 +199,11 @@ data(){
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
 </template>
-
 
 <style>
 
@@ -384,6 +384,27 @@ data(){
     background-color: rgb(213, 221, 232);
     color: rgb(37, 55, 100);
     font-weight: 600;
+}
+
+.bottom{
+    flex:1;
+    display:flex;
+    flex-direction: column;
+    justify-content: end;
+    padding: 0% 0% 0% 9%;
+}
+
+.credit{
+    display:flex;
+    align-items: center;
+    width:100%;
+    margin-top:5%;
+}
+
+.credit-text{
+    font-style: italic;
+    font-size: 0.5rem;
+    color: rgb(8, 8, 99);
 }
 
 
